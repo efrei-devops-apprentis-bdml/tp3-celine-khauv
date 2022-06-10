@@ -24,8 +24,7 @@ jobs:
     steps:
      - uses: actions/checkout@v2 # first action : checkout source code
      - name: docker login
-       run: | # log into docker hub account
-        winpty docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD  
+       run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD  
      - name: Get current date # get the date of the build
        id: date
        run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
