@@ -22,23 +22,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-     -
-        name: Checkout 
-        uses: actions/checkout@v2
-     -
-        name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-     -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-     -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simplewhale:latest
+     - uses: actions/checkout@v2 # first action : checkout source code
+     - name: docker login
+       run: | # log into docker hub account
+        docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD  
+     - name: Get current date # get the date of the build
+       id: date
+       run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+     - name: Build the Docker image # push The image to the docker hub
+       run: docker build . --file Dockerfile --tag $DOCKERHUB_USERNMAE/efrei-devops-tp2:${{ steps.date.outputs.date }}
+     - name: Docker Push
+       run: docker push $DOCKERHUB_USERNAME/efrei-devops-tp2:${{ steps.date.outputs.date }}
