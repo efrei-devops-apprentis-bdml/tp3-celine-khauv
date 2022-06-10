@@ -1,9 +1,12 @@
 FROM alpine:3.4
 
-WORKDIR /app
+RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ nodejs=8.14.0-r0 npm 
 
-RUN apk update && apk add curl && apk --no-cache
+COPY api.js .
+COPY package*.json .
 
-COPY curl.sh .
+RUN npm install
 
-CMD ["./curl.sh"]
+EXPOSE 8081
+
+ENTRYPOINT node api.js
