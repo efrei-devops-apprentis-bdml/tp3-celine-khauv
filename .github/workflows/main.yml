@@ -12,23 +12,18 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+env:
+  DAY_OF_WEEK: Monday
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  greeting_job:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    env:
+      Greeting: Hello
     steps:
-     - uses: actions/checkout@v2 # first action : checkout source code
-     - name: docker login
-       run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD 
-     - name: Get current date # get the date of the build
-       id: date
-       run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
-     - name: Build the Docker image # push The image to the docker hub
-       run: docker build . --file Dockerfile --tag $DOCKERHUB_USERNMAE/efrei-devops-tp2:${{ steps.date.outputs.date }}
-     - name: Docker Push
-       run: docker push $DOCKERHUB_USERNAME/efrei-devops-tp2:${{ steps.date.outputs.date }}
+      - name: "Say Hello Mona it's Monday"
+        if: ${{ env.DAY_OF_WEEK == 'Monday' }}
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Mona
