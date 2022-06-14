@@ -22,4 +22,5 @@ app.get('/', function (req, res, next) {
 });
 
 console.log(`==> API listening on port ${port}`)
+console.log(API_KEY)
 app.listen(port);
