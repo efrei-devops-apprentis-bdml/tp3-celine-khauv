@@ -23,11 +23,6 @@ COPY . .
 
 On copie le fichier dans notre conteneur.
 
-```
-EXPOSE 8081
-```
-
-On expose le port 8081 dans le container qui est le port utilisé dans le api.js.
 
 ```
 CMD ["python3", "main.py"]
