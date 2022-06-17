@@ -1,11 +1,13 @@
-FROM node:10-alpine
+FROM python:3.11.0a7-alpine3.15
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY api.js ./
-COPY package*.json ./
-USER node
-RUN npm install
-COPY --chown=node:node . .
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY . .
+
 EXPOSE 8081
-CMD [ "node", "api.js", "240aa650f4db4e154a07d0459c30a347"]
+
+CMD ["python3", "main.py"]
