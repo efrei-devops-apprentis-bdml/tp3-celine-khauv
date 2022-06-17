@@ -1,8 +1,7 @@
-on: push
-
 apiVersion: 1.0.0
 location: "france central"
 name: livenesstest
+
 properties:
   containers:
     - name: 20180417
