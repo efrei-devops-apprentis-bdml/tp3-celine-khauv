@@ -1,0 +1,20 @@
+location: "france central"
+name: probe
+properties:
+  containers:
+    - name: liveness
+      image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20180417:v1
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 80
+        initialDelaySeconds: 5
+        timeoutSeconds: 2
+        periodSeconds: 10
+        failureThreshold: 3
+      ports:
+        - containerPort: 80
+  osType: Linux
+  restartPolicy: Always
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
